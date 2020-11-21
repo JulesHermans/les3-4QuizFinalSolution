@@ -41,8 +41,6 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: FlatButton(
-                    color: Colors.green,
-                    textColor: Colors.white,
                     child: Text(
                       'TRUE',
                       style: TextStyle(fontSize: 20),
