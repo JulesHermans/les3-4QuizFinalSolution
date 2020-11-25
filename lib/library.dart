@@ -43,6 +43,6 @@ class QuestionBank {
   }
 
   bool isFinished() {
-    return currentQuestionNumber >= questions.length - 1 ;
+    return currentQuestionNumber >= questions.length - 1;
   }
 }
