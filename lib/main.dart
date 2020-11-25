@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'library.dart';
 
 void main() {
   runApp(QuizApp());
 }
+
+QuestionBank bank = new QuestionBank();
 
 class QuizApp extends StatelessWidget {
   @override
@@ -21,12 +24,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Widget> scoreKeeper = [];
-  List<String> questions = [
-    'Sommige katten zijn allergisch voor mensen',
-    'kan een koe een trap naar beneden laten nemen, maar niet naar boven',
-    'Een kwart van de menselijke botten bevinden zich in de voet',
-  ];
   int questionNb = 0;
+
+  void _checkAnswer(bool userAnswer) {
+    bool correctAnswer = bank.getCurrentAnswer();
+    setState(() {
+      if (!bank.isFinished()) {
+        if (userAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        } else {
+          scoreKeeper.add(Icon(Icons.clear, color: Colors.red));
+        }
+        bank.nextQuestion();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                 flex: 5,
                 child: Center(
                   child: Text(
-                    questions[questionNb],
+                    bank.getCurrentQuestion(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
@@ -57,14 +69,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      setState(() {
-                        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-                        if (questionNb < questions.length - 1) {
-                          questionNb++;
-                        } else {
-                          questionNb = 0;
-                        }
-                      });
+                      _checkAnswer(true);
                     }),
               ),
             ),
@@ -79,14 +84,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      setState(() {
-                        scoreKeeper.add(Icon(Icons.clear, color: Colors.red));
-                        if (questionNb < questions.length - 1) {
-                          questionNb++;
-                        } else {
-                          questionNb = 0;
-                        }
-                      });
+                      _checkAnswer(false);
                     }),
               ),
             ),
