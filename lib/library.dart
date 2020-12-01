@@ -1,26 +1,26 @@
+import 'package:flutter/cupertino.dart';
+
 class Question {
-  Question(String q, bool a) {
-    text = q;
-    answer = a;
-  }
+  Question(this.text, this.answer);
+
   String text;
   bool answer;
 }
 
 class QuestionBank {
-  int currentQuestionNumber = 0;
-  List<Question> questions = [
+  int _currentQuestionNumber = 0;
+  List<Question> _questions = [
     Question('Sommige katten zijn allergisch voor mensen', true),
     Question(
-        'kan een koe een trap naar beneden laten nemen, maar niet naar boven',
+        'Je kan een koe een trap naar beneden laten nemen, maar niet naar boven',
         false),
     Question(
         'Een kwart van de menselijke botten bevinden zich in de voet', true),
-    Question('Een slak zijn bloed is groen', true),
-    Question('In Portugal is het illegaal om in de oceaan te plassen', true),
+    Question('Een slak zijn bloed is groen ', true),
+    Question('In Portugal is het illegaal om in de oceaan te plassen ', true),
     Question(
         'Geen enkel droog stuk papier can 7x in twee geplooid worden', false),
-    Question('Een Afrikaanse olifant is het luidste dier ter wereld', false),
+    Question('Een Afrikaanse olifant is het luidste dier ter wereld ', false),
     Question(
         'De totale oppervlakte van twee menselijke longen is 70 vierkante meter',
         true),
@@ -31,18 +31,24 @@ class QuestionBank {
   ];
 
   String getCurrentQuestion() {
-    return questions[currentQuestionNumber].text;
+    return _questions[_currentQuestionNumber].text;
   }
 
   bool getCurrentAnswer() {
-    return questions[currentQuestionNumber].answer;
+    return _questions[_currentQuestionNumber].answer;
   }
 
   void nextQuestion() {
-    currentQuestionNumber++;
+    if (_currentQuestionNumber < _questions.length - 1) {
+      _currentQuestionNumber++;
+    }
   }
 
   bool isFinished() {
-    return currentQuestionNumber >= questions.length - 1;
+    return _currentQuestionNumber >= _questions.length - 1 ? true : false;
+  }
+
+  void reset() {
+    _currentQuestionNumber = 0;
   }
 }

@@ -29,7 +29,23 @@ class _HomePageState extends State<HomePage> {
   void _checkAnswer(bool userAnswer) {
     bool correctAnswer = bank.getCurrentAnswer();
     setState(() {
-      if (!bank.isFinished()) {
+      if (bank.isFinished()) {
+        //this is the solution for showing the dialog
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          child: AlertDialog(
+            title: Center(
+                child: Text('Finished, you reached the end of the quiz!')),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+
+        bank.reset();
+        scoreKeeper = [];
+      } else {
         if (userAnswer == correctAnswer) {
           scoreKeeper.add(Icon(Icons.check, color: Colors.green));
         } else {
